@@ -40,6 +40,8 @@ filetype off " forces reload
 filetype plugin indent on
 syntax on
 colorscheme solarized
+set background="dark"
+:so ~/vimfiles/vim/bundle/vim-colors-solarized/autoload/togglebg.vim
 
 " Searching
 set incsearch hlsearch

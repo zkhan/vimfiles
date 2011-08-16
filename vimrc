@@ -16,12 +16,30 @@ let mapleader = ","
 highlight CursorLine cterm=bold
 highlight MatchParen cterm=none ctermbg=none ctermfg=yellow
 
+" Vundle
+set rtp+=~/.vim/bundle/vundle/
+call vundle#rc()
+Bundle 'gmarik/vundle'
+Bundle 'vim-scripts/The-NERD-tree'
+Bundle 'vim-scripts/VimClojure'
+Bundle 'vim-scripts/AutoClose'
+Bundle 'vim-scripts/sessionman.vim'
+Bundle 'tpope/vim-fugitive'
+Bundle 'tpope/vim-surround'
+Bundle 'kchmck/vim-coffee-script'
+Bundle 'edsono/vim-matchit'
+Bundle 'altercation/vim-colors-solarized'
+Bundle 'rails.vim'
+
+Bundle 'git://git.wincent.com/command-t.git'
+
+
+
 " Filetypes
-call pathogen#runtime_append_all_bundles()
-call pathogen#helptags()
 filetype off " forces reload
 filetype plugin indent on
 syntax on
+colorscheme solarized
 
 " Searching
 set incsearch hlsearch

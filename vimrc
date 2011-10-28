@@ -33,8 +33,7 @@ Bundle 'altercation/vim-colors-solarized'
 Bundle 'rails.vim'
 Bundle 'bufexplorer.zip'
 Bundle 'git://git.wincent.com/command-t.git'
-
-
+Bundle 'cespare/zenburn'
 
 " Filetypes
 filetype off " forces reload

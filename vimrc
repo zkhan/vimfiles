@@ -31,7 +31,7 @@ Bundle 'kchmck/vim-coffee-script'
 Bundle 'edsono/vim-matchit'
 Bundle 'altercation/vim-colors-solarized'
 Bundle 'rails.vim'
-Bundle 'bufexplorer.zip'
+Bundle 'markabe/bufexplorer'
 Bundle 'git://git.wincent.com/command-t.git'
 Bundle 'cespare/zenburn'
 

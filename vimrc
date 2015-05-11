@@ -1,6 +1,6 @@
 " General
 set nocompatible
-
+let g:ruby_path = system('rvm current')
 " Editing
 set aw ai
 set et ts=8 sts=2 sw=2 nu
@@ -9,20 +9,20 @@ set showmatch matchtime=5
 set whichwrap=<,>,h,l,[,]
 set cursorline
 set nofoldenable
+set nowrap!
 "let maplocalleader = ","
 let mapleader = ","
 
 " Style
 highlight CursorLine cterm=bold
 highlight MatchParen cterm=none ctermbg=none ctermfg=yellow
-
 " Vundle
 set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
 Bundle 'gmarik/vundle'
 Bundle 'vim-scripts/The-NERD-tree'
-Bundle 'vim-scripts/VimClojure'
-"Bundle 'vim-scripts/AutoClose'
+Bundle 'scrooloose/nerdcommenter'
+Bundle 'vim-scripts/AutoClose'
 Bundle 'vim-scripts/sessionman.vim'
 Bundle 'vim-scripts/taglist.vim'
 Bundle 'tpope/vim-fugitive'
@@ -30,18 +30,69 @@ Bundle 'tpope/vim-surround'
 Bundle 'kchmck/vim-coffee-script'
 Bundle 'edsono/vim-matchit'
 Bundle 'altercation/vim-colors-solarized'
-Bundle 'rails.vim'
+Bundle 'tpope/vim-rails.git'
 Bundle 'markabe/bufexplorer'
-Bundle 'git://git.wincent.com/command-t.git'
 Bundle 'cespare/zenburn'
+Bundle 'ecomba/vim-ruby-refactoring'
+Bundle 'Lokaltog/vim-powerline'
+Bundle 'scrooloose/syntastic'
+Bundle 'kien/ctrlp.vim'
+Bundle 'eddsteel/vim-vimbrant'
+Bundle 'ack.vim'
+Bundle 'tpope/vim-endwise'
+Bundle 'snipMate'
+Bundle 'unimpaired.vim'
+Bundle 'nono/vim-handlebars'
+Bundle 'roman/golden-ratio'
+Bundle 'thoughtbot/vim-rspec'
+Bundle 'tpope/vim-dispatch'
+Bundle 'slim-template/vim-slim'
+Bundle 'AndrewRadev/sideways.vim'
+Bundle 'tpope/vim-fireplace'
 
+" Rainbow parentheses
+Bundle 'kien/rainbow_parentheses.vim'
+"  Parentheses colours using Solarized
+let g:rbpt_colorpairs = [
+  \ [ '13', '#6c71c4'],
+  \ [ '5',  '#d33682'],
+  \ [ '1',  '#dc322f'],
+  \ [ '9',  '#cb4b16'],
+  \ [ '3',  '#b58900'],
+  \ [ '2',  '#859900'],
+  \ [ '6',  '#2aa198'],
+  \ [ '4',  '#268bd2'],
+  \ ]
+ 
+" Enable rainbow parentheses for all buffers
+augroup rainbow_parentheses
+  au!
+  au VimEnter * RainbowParenthesesActivate
+  au BufEnter * RainbowParenthesesLoadRound
+  au BufEnter * RainbowParenthesesLoadSquare
+  au BufEnter * RainbowParenthesesLoadBraces
+augroup END
+
+" Status ine stuff
+set laststatus=2
+set encoding=utf-8
+let g:Powerline_symbols = 'unicode'
+set t_Co=256
+let g:syntastic_mode_map = { 'mode': 'active',
+                         \ 'active_filetypes': [ 'javascript' ],
+                         \ 'passive_filetypes': [] }
+let g:syntastic_stl_format = '[%E{Err: %fe #%e}%B{, }%W{Warn: %fw #%w}]'
+set statusline+=%{SyntasticStatuslineFlag()}   " Show syntastic error status
+
+let g:ctrlp_switch_buffer=1
+"let g:syntastic_ruby_exec = '~/.rvm/rubies/ruby-2.0.0-p353/bin/ruby'
 " Filetypes
 filetype off " forces reload
 filetype plugin indent on
 syntax on
-colorscheme solarized
+set guifont=Inconsolata:h15
 set background="dark"
-:so ~/vimfiles/vim/bundle/vim-colors-solarized/autoload/togglebg.vim
+:so ~/.vim/bundle/vim-colors-solarized/autoload/togglebg.vim
 
 " Searching
 set incsearch hlsearch
@@ -49,6 +100,7 @@ set ignorecase smartcase
 set tags=tags,./tags
 nmap <silent> <C-c> <Esc>:!ctags -R<CR><CR>
 nmap <silent> ,h <Esc>:set invhls<CR>:set hls?<CR>
+nnoremap <esc> :noh<return><esc>
 
 
 " Saving
@@ -75,7 +127,7 @@ set directory=/var/tmp//
 
 " Windows
 nmap <C-N> <C-W>w
-nmap <C-P> <C-W>W
+nmap <C-M> <C-W>W
 nmap ,n <C-W>w
 nmap ,p <C-W>W
 nmap ,H <C-W>H
@@ -89,7 +141,13 @@ nmap ,R <C-W>R
 set hidden
 set equalalways
 set splitbelow splitright
-set mouse=a
+autocmd BufReadPost quickfix nnoremap <buffer> <CR> <CR>
+set guioptions-=r
+set guioptions-=L
+"set mouse=a
+"autocmd VimEnter * set ttymouse=xterm2
+"autocmd FocusGained * set ttymouse=xterm2
+"autocmd BufEnter * set ttymouse=xterm2
 
 " Taglist
 let Tlist_Use_Horiz_Window = 1
@@ -101,10 +159,14 @@ nmap <Leader>l :TlistToggle<CR>
 
 " NERD-Tree
 nmap <Leader>f :NERDTreeToggle<CR>
+nmap <Leader>m :NERDTreeFind<CR>
+let NERDTreeQuitOnOpen = 1
 
 " Sessions
 set viminfo=!,'100,<50,s10,h
 let sessionman_save_on_exit = 1
+" when opening a new tab, disable insert mode
+autocmd WinEnter * stopinsert
 
 " Let %% expands to directory of %
 cabbr <expr> %% expand('%:h')
@@ -135,3 +197,24 @@ let vimclojure#HighlightBuiltins = 1
 " Shell scripts
 let g:is_bash=1
 "let g:sh_fold_enabled=7
+colorscheme solarized
+
+
+" Use nicer whitespace characters and show whitespace
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Text, tab and indent related from: http://amix.dk/vim/vimrc.html
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Use spaces instead of tabs
+set expandtab
+
+" Be smart when using tabs ;)
+set smarttab
+
+set shiftwidth=2
+set tabstop=2
+
+set ai "Auto indent
+set si "Smart indent
+set listchars=tab:>-,trail:-
+set list
+

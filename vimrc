@@ -17,41 +17,45 @@ let mapleader = ","
 highlight CursorLine cterm=bold
 highlight MatchParen cterm=none ctermbg=none ctermfg=yellow
 " Vundle
-set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
-Bundle 'gmarik/vundle'
-Bundle 'vim-scripts/The-NERD-tree'
-Bundle 'scrooloose/nerdcommenter'
-Bundle 'vim-scripts/AutoClose'
-Bundle 'vim-scripts/sessionman.vim'
-Bundle 'vim-scripts/taglist.vim'
-Bundle 'tpope/vim-fugitive'
-Bundle 'tpope/vim-surround'
-Bundle 'kchmck/vim-coffee-script'
-Bundle 'edsono/vim-matchit'
-Bundle 'altercation/vim-colors-solarized'
-Bundle 'tpope/vim-rails.git'
-Bundle 'markabe/bufexplorer'
-Bundle 'cespare/zenburn'
-Bundle 'ecomba/vim-ruby-refactoring'
-Bundle 'Lokaltog/vim-powerline'
-Bundle 'scrooloose/syntastic'
-Bundle 'kien/ctrlp.vim'
-Bundle 'eddsteel/vim-vimbrant'
-Bundle 'ack.vim'
-Bundle 'tpope/vim-endwise'
-Bundle 'snipMate'
-Bundle 'unimpaired.vim'
-Bundle 'nono/vim-handlebars'
-Bundle 'roman/golden-ratio'
-Bundle 'thoughtbot/vim-rspec'
-Bundle 'tpope/vim-dispatch'
-Bundle 'slim-template/vim-slim'
-Bundle 'AndrewRadev/sideways.vim'
-Bundle 'tpope/vim-fireplace'
+set rtp+=~/.vim/bundle/Vundle.vim/
+call vundle#begin()
+Plugin 'gmarik/Vundle.vim'
+Plugin 'vim-scripts/The-NERD-tree'
+Plugin 'scrooloose/nerdcommenter'
+Plugin 'vim-scripts/AutoClose'
+Plugin 'vim-scripts/sessionman.vim'
+Plugin 'vim-scripts/taglist.vim'
+Plugin 'vim-scripts/colorizer'
+Plugin 'tpope/vim-fugitive'
+Plugin 'tpope/vim-surround'
+Plugin 'kchmck/vim-coffee-script'
+Plugin 'edsono/vim-matchit'
+Plugin 'altercation/vim-colors-solarized'
+Plugin 'tpope/vim-rails.git'
+Plugin 'markabe/bufexplorer'
+Plugin 'cespare/zenburn'
+Plugin 'ecomba/vim-ruby-refactoring'
+Plugin 'Lokaltog/vim-powerline'
+Plugin 'scrooloose/syntastic'
+Plugin 'kien/ctrlp.vim'
+Plugin 'eddsteel/vim-vimbrant'
+Plugin 'ack.vim'
+Plugin 'tpope/vim-endwise'
+Plugin 'snipMate'
+Plugin 'unimpaired.vim'
+Plugin 'nono/vim-handlebars'
+Plugin 'roman/golden-ratio'
+Plugin 'thoughtbot/vim-rspec'
+Plugin 'tpope/vim-dispatch'
+Plugin 'slim-template/vim-slim'
+Plugin 'AndrewRadev/sideways.vim'
+Plugin 'tpope/vim-fireplace'
 
 " Rainbow parentheses
-Bundle 'kien/rainbow_parentheses.vim'
+Plugin 'kien/rainbow_parentheses.vim'
+
+call vundle#end()            " required
+filetype plugin indent on    " required
 "  Parentheses colours using Solarized
 let g:rbpt_colorpairs = [
   \ [ '13', '#6c71c4'],
@@ -90,7 +94,7 @@ let g:ctrlp_switch_buffer=1
 filetype off " forces reload
 filetype plugin indent on
 syntax on
-set guifont=Inconsolata:h15
+set guifont=Inconsolata\ Medium\ 12
 set background="dark"
 :so ~/.vim/bundle/vim-colors-solarized/autoload/togglebg.vim
 
@@ -197,7 +201,11 @@ let vimclojure#HighlightBuiltins = 1
 " Shell scripts
 let g:is_bash=1
 "let g:sh_fold_enabled=7
-colorscheme solarized
+if has('gui_running')
+  colorscheme solarized
+else
+  colorscheme vimbrant
+endif
 
 
 " Use nicer whitespace characters and show whitespace
